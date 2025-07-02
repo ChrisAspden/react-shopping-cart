@@ -21,3 +21,24 @@
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+
+# General env file
+.env
+
+# SQLite
+*.sqlite
+*.db
+
+# Tailwind/Vite/React tooling
+.vite/
+.cache/
+*.local/
+
+# Logs folder
+logs/
+*.log
+
+# Docker files
+docker-compose.override.yml
+.docker/
+
