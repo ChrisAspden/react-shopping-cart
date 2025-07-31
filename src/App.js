@@ -4,8 +4,6 @@ import Home from './Home/Home';
 import MainLayout from './Layouts/MainLayout';
 import './index.css';
 
-
-
 function App() {
   return (
     <BrowserRouter>

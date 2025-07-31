@@ -1,6 +1,6 @@
 import React from 'react';
 import Lottie from 'lottie-react';
-import CrossStitch from '../../Assets/Animations/Cross-Stitch.json';
+import CrossStitch from '../../Assets/Animations/cross-stitch.json'
 
 const CrossStitchDropdown = () => (
   <div className="h-[80px] w-full flex justify-center items-center bg-green-500 mix-blend-multiply rounded-b-md shadow-inner">

@@ -25,9 +25,7 @@ yarn-error.log*
 # General env file
 .env
 
-# SQLite
-*.sqlite
-*.db
+
 
 # Tailwind/Vite/React tooling
 .vite/

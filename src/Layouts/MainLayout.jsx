@@ -2,27 +2,29 @@ import Wallpaper from '../Components/Wallpaper';
 import Footer from '../Components/Footer';
 import NavBar from '../Components/NavBar';
 import CategoryBar from '../Components/CategoryBar';
+import { useLocation } from 'react-router-dom';
 
 
-const MainLayout = ({ children }) => (
+const MainLayout = ({ children }) => {
+  console.log('MainLayout rendered');
+  const location = useLocation();
+  return (
     <div className="flex flex-col h-screen overflow-hidden relative">
-        <Wallpaper />
-
-        <header className="relative z-20">
-            <NavBar />
-            <CategoryBar />
-        </header>
-
-        <main className="flex-grow relative z-10 overflow-auto">
-            {children}
-        </main>
-
-        <footer className="relative z-10">
-            <Footer />
-         </footer>
+      <Wallpaper key={location.pathname} />
+      <header className="relative z-20">
+        <NavBar />
+        <CategoryBar />
+      </header>
+      <main className="flex-grow relative z-10 overflow-auto">
+        {children}
+      </main>
+      <footer className="relative z-10">
+        <Footer />
+      </footer>
     </div>
+  );
+};
 
-);
 
 
 export default MainLayout;

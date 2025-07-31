@@ -1,7 +1,36 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
+import { sendLoginRequest } from "../Services/authService";
+import { useAuth } from "../Context/useAuth";
 
-const Login = ({ onClose, onCreateAccount }) => {
-  const modalRef = useRef(null);
+interface LoginProps {
+  onClose: () => void;
+  onCreateAccount: () => void;
+}
+
+const Login: React.FC<LoginProps> = ({ onClose, onCreateAccount }) => {
+  const modalRef = useRef<HTMLDivElement>(null);
+  const { login } = useAuth();
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [errorMsg, setErrorMsg] = useState('');
+
+  const handleLogin = async (e: React.FormEvent) => {
+    console.log("🧠 handleLogin triggered");
+    e.preventDefault();
+    try {
+      const response = await sendLoginRequest(email, password);
+      if (response.data.success) {
+        login(response.data.email);
+        onClose();
+      } else {
+        setErrorMsg(response.data.message || 'Invalid email or password');
+        setTimeout(() => setErrorMsg(''), 3000);
+      }
+    } catch (error) {
+      setErrorMsg('Something went wrong. Please try again.');
+      setTimeout(() => setErrorMsg(''), 3000);
+    }
+  };
 
   const handleCreateAccount = () => {
     onClose();
@@ -9,8 +38,8 @@ const Login = ({ onClose, onCreateAccount }) => {
   };
 
   useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (modalRef.current && !modalRef.current.contains(event.target)) {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (modalRef.current && !modalRef.current.contains(event.target as Node)) {
         onClose();
       }
     };
@@ -21,16 +50,11 @@ const Login = ({ onClose, onCreateAccount }) => {
     };
   }, [onClose]);
 
-
   return (
     <div className="w-64 transform scale-[0.8] origin-top-right">
-      {/* Internal container — this is where you can scale or animate */}
       <div ref={modalRef} className="bg-green-500 rounded-lg shadow-lg p-6 relative">
         <button
-          onClick={() =>{
-            onClose();
-            onCreateAccount();
-          }}
+          onClick={onClose}
           className="absolute top-2 right-3 text-gray-500 hover:text-gray-800 text-xl"
         >
           ×
@@ -38,16 +62,17 @@ const Login = ({ onClose, onCreateAccount }) => {
 
         <h2 className="text-xl font-semibold text-gray-800 mb-4">Login to Your Account</h2>
 
-        <form
-          onSubmit={(e) => {
-            e.preventDefault();
-            // handle login logic here
-          }}
-        >
+        {errorMsg && (
+          <p className="text-sm text-red-600 mb-4">{errorMsg}</p>
+        )}
+
+        <form onSubmit={handleLogin}>
           <label className="block mb-2">
             <span className="text-sm font-medium text-gray-700">Email</span>
             <input
               type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
               className="mt-1 block w-full rounded-md border border-gray-300 shadow-sm p-2 text-sm"
               required
             />
@@ -57,6 +82,8 @@ const Login = ({ onClose, onCreateAccount }) => {
             <span className="text-sm font-medium text-gray-700">Password</span>
             <input
               type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
               className="mt-1 block w-full rounded-md border border-gray-300 shadow-sm p-2 text-sm"
               required
             />
@@ -96,4 +123,6 @@ const Login = ({ onClose, onCreateAccount }) => {
 };
 
 export default Login;
+
+
 

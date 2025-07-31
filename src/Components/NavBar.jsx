@@ -1,6 +1,5 @@
 import React from 'react';
 import Icon from '../Assets/WebsiteNavIcon.png';
-import { FiShoppingCart } from 'react-icons/fi';
 import NavAnimation from './NavAnimation';
 
 
@@ -26,13 +25,6 @@ const NavBar = () => {
         <NavAnimation className="ml-auto" />
       </a>
       
-    </div>
-
-    {/* Right: Shopping Cart */}
-    <div className="justify-self-end">
-      <a href="/cart">
-        <FiShoppingCart className="text-2xl text-white p-2 rounded-md h-10 w-10 mr-4" />
-      </a>
     </div>
   </div>
 </nav>

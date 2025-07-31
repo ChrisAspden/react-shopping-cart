@@ -1,0 +1,24 @@
+--legacy-peer-deps - use if there is a version confliction when installing a new dependency
+npm run dev:start - starts backend server and docker container in one go
+npm start - run seperately to start frontend as npm takes over the console so you cant see logs
+
+
+--putting the app on the www - render is the best option
+
+curl -X POST http://localhost:3001/api/users/login \
+  -H "Content-Type: application/json" \
+  -d '{"email":"chris.aspden@yahoo.com","password":"W3sb24da"}'
+
+  npm install cors --legacy-peer-deps
+  npm install --save-dev @types/cors --legacy-peer-deps
+
+  fetch('http://localhost:3001/api/users/login', {
+  method: 'POST',
+  headers: { 'Content-Type': 'application/json' },
+  body: JSON.stringify({ email: 'chris.aspden@yahoo.com', password: 'W3sb24da' })
+})
+  .then(res => res.json())
+  .then(data => console.log('✅ Raw fetch response:', data))
+  .catch(err => console.error('❌ Fetch error:', err));
+
+

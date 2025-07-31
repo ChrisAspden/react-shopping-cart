@@ -1,6 +1,11 @@
-// src/database/index.ts
 import { Sequelize } from 'sequelize';
 
-const sequelize = new Sequelize('sqlite::memory:'); // Or your DB config string
+const sequelize = new Sequelize('postgres', 'chris', 'secretpass', {
+  host: 'localhost',
+  port: 5432,
+  dialect: 'postgres',
+});
+
+
 
 export default sequelize;

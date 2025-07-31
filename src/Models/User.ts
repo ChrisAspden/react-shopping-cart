@@ -59,14 +59,14 @@ User.init(
   {
     sequelize,
     tableName: 'users',
-    hooks: {
-      beforeCreate: async (user: UserCreationAttributes & { password?: string }) => {
-        if (user.password) {
-          const hash = await bcrypt.hash(user.password, 10);
-          (user as any).passwordHash = hash;
-        }
-      },
-    },
+    // hooks: {
+    //   beforeCreate: async (user: UserCreationAttributes & { password?: string }) => {
+    //     if (user.password) {
+    //       const hash = await bcrypt.hash(user.password, 10);
+    //       (user as any).passwordHash = hash;
+    //     }
+    //   },
+    // },
   }
 );
 
