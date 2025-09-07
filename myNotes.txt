@@ -21,4 +21,9 @@ curl -X POST http://localhost:3001/api/users/login \
   .then(data => console.log('✅ Raw fetch response:', data))
   .catch(err => console.error('❌ Fetch error:', err));
 
+  Todo:
+
+  Let me know if you want to add a /db-health route that runs a live query like SELECT 1 to confirm 
+  everything’s wired up. It’s a great tool for debugging weird behavior like ghost users or stale data.
+
 

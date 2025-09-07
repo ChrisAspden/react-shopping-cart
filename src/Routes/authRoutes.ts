@@ -1,4 +1,5 @@
 // src/Routes/authRoutes.ts
+//backend routes/logic for user authentication
 import express from 'express';
 import bcrypt from 'bcrypt';
 import User from '../Models/User'; // adjust if needed

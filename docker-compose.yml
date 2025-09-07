@@ -1,10 +1,31 @@
 version: '3.8'
 
+networks:
+  devnet:
+    driver: bridge
+
 services:
+  backend:
+    container_name: backend
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    networks:
+      - devnet
+    volumes:
+      - .:/app
+    ports:
+      - "3001:3001"
+    depends_on:
+      - postgres
+    command: npm run dev
+
   postgres:
     image: postgres:16
     container_name: postgres_dev
     restart: always
+    networks:
+      - devnet
     environment:
       POSTGRES_USER: chris
       POSTGRES_PASSWORD: secretpass
@@ -14,5 +35,25 @@ services:
     volumes:
       - pgdata:/var/lib/postgresql/data
 
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: pgadmin_dev
+    restart: always
+    networks:
+      - devnet
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@local.com
+      PGADMIN_DEFAULT_PASSWORD: admin123
+    ports:
+      - "5050:80"
+    depends_on:
+      - postgres
+    volumes:
+      - pgadmin_data:/var/lib/pgadmin
+
 volumes:
   pgdata:
+  pgadmin_data:
+
+
+

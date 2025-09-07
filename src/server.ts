@@ -1,12 +1,23 @@
 // src/server.ts
 console.log("🛠 Starting server.ts...");
+console.log("🔁 Nodemon reload test — if you see this, hot reload works!");
 
 import cors from 'cors';
 import express from 'express';
 import sequelize from './Database/index'; // adjust if your path is different
 import userRoutes from './Routes/userRoutes';
-
 import authRoutes from './Routes/authRoutes';
+import dotenv from 'dotenv';
+
+dotenv.config(); // Load environment variables from .env file
+
+console.log("🛠 Starting server.ts...");
+console.log("🧭 DB connection string:", process.env.DATABASE_URL);
+console.log("🧠 Sequelize DB name:", sequelize.getDatabaseName());
+console.log("🔌 Sequelize dialect:", sequelize.getDialect());
+
+
+
 
 
 const app = express();
@@ -34,6 +45,11 @@ sequelize.sync()
   console.log('🧪 /test route hit');
   res.send('Hello from backend');
   });
+
+  sequelize.authenticate()
+  .then(() => console.log('✅ Sequelize successfully connected to the database'))
+  .catch((err) => console.error('❌ Sequelize failed to connect:', err));
+
 
   app.listen(PORT, () => {
     console.log(`🚀 Server running on http://localhost:${PORT}`);

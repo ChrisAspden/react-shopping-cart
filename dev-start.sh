@@ -1,16 +1,17 @@
 #!/bin/bash
 
+echo "🧹 Shutting down any existing containers..."
+docker-compose down
+
 echo "☕ Warming up your dev environment..."
 
-# Start PostgreSQL container if it's not running
-if [[ $(docker ps -q -f name=postgres_dev) == "" ]]; then
-  echo "🐘 Starting PostgreSQL Docker container..."
-  docker start postgres_dev
-else
-  echo "✅ PostgreSQL container already running."
-fi
+echo "🐳 Starting Docker containers (Backend, Postgres, pgAdmin)..."
+docker-compose up --build -d
 
-# Start backend server
-echo "🚀 Starting backend server..."
-exec npm run start:server
+echo "✅ All services running. Backend will auto-reload on code changes."
+docker logs -f backend
+
+
+
+
 

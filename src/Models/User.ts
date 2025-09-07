@@ -1,29 +1,22 @@
-import { DataTypes, Model, Optional } from 'sequelize';
+import { 
+  DataTypes, 
+  Model, 
+  InferAttributes,
+  InferCreationAttributes,
+  CreationOptional
+   } from 'sequelize';
 import bcrypt from 'bcrypt';
 import sequelize from '../Database'; // adjust path to your Sequelize instance
 
-// Define attributes for User
-interface UserAttributes {
-  id: number;
-  email: string;
-  passwordHash: string;
-  isAdmin?: boolean;
-  createdAt?: Date;
-  updatedAt?: Date;
-}
-
-// Fields required for creation (exclude auto-generated fields like id and passwordHash)
-interface UserCreationAttributes extends Optional<UserAttributes, 'id' | 'passwordHash' | 'isAdmin'> {
-  password?: string; // plain-text password for registration
-}
-
-class User extends Model<UserAttributes, UserCreationAttributes> implements UserAttributes {
-  public id!: number;
-  public email!: string;
-  public passwordHash!: string;
-  public isAdmin?: boolean;
-  public readonly createdAt!: Date;
-  public readonly updatedAt!: Date;
+class User extends Model<InferAttributes<User>, InferCreationAttributes<User>> {
+  declare id: CreationOptional<number>;
+  declare email: string;
+  declare passwordHash: string;
+  declare isAdmin: CreationOptional<boolean>;
+  declare confirmed: boolean;
+  declare confirmationToken: string | null;
+  declare createdAt: CreationOptional<Date>;
+  declare updatedAt: CreationOptional<Date>;
 
   // Instance method to validate password
   public async validatePassword(password: string): Promise<boolean> {
@@ -55,18 +48,28 @@ User.init(
       type: DataTypes.BOOLEAN,
       defaultValue: false,
     },
+    confirmed:{
+      type: DataTypes.BOOLEAN,
+      allowNull: false,
+      defaultValue: false,
+    },
+    confirmationToken: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
+    createdAt: {
+      type: DataTypes.DATE,
+      allowNull: false,
+    },
+    updatedAt: {
+      type: DataTypes.DATE,
+      allowNull: false,
+    },
+
   },
   {
     sequelize,
     tableName: 'users',
-    // hooks: {
-    //   beforeCreate: async (user: UserCreationAttributes & { password?: string }) => {
-    //     if (user.password) {
-    //       const hash = await bcrypt.hash(user.password, 10);
-    //       (user as any).passwordHash = hash;
-    //     }
-    //   },
-    // },
   }
 );
 

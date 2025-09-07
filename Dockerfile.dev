@@ -1,0 +1,11 @@
+FROM node:20
+
+WORKDIR /app
+
+# Install dependencies
+COPY package.backend.json ./package.json
+
+RUN npm install
+
+# Start dev server
+CMD ["npm", "run", "dev"]

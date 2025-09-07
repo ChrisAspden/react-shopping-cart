@@ -4,7 +4,6 @@ import NavBar from '../Components/NavBar';
 import CategoryBar from '../Components/CategoryBar';
 import { useLocation } from 'react-router-dom';
 
-
 const MainLayout = ({ children }) => {
   console.log('MainLayout rendered');
   const location = useLocation();
