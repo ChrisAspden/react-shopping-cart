@@ -1,5 +1,5 @@
 // src/services/authService.ts
-//frontend service for user authentication
+//frontend service for user authentication, called in LoginFormPopup
 import axios from 'axios';
 
 export type LoginResponse =

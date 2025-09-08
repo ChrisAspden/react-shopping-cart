@@ -6,7 +6,6 @@ import cors from 'cors';
 import express from 'express';
 import sequelize from './Database/index'; // adjust if your path is different
 import userRoutes from './Routes/userRoutes';
-import authRoutes from './Routes/authRoutes';
 import dotenv from 'dotenv';
 
 dotenv.config(); // Load environment variables from .env file
@@ -15,10 +14,6 @@ console.log("🛠 Starting server.ts...");
 console.log("🧭 DB connection string:", process.env.DATABASE_URL);
 console.log("🧠 Sequelize DB name:", sequelize.getDatabaseName());
 console.log("🔌 Sequelize dialect:", sequelize.getDialect());
-
-
-
-
 
 const app = express();
 const PORT = 3001;
@@ -34,7 +29,6 @@ app.use((req, res, next) => {
   next();
 });
 app.use('/api/users', userRoutes);
-app.use('/api/auth', authRoutes);
 
 // Sync database and start server
 sequelize.sync()

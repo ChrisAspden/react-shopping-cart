@@ -4,6 +4,7 @@ import User from '../Models/User';
 import bcrypt from 'bcrypt';
 import crypto from 'crypto';
 import { sendConfirmationEmail } from '../Services/emailService';
+import { sendPasswordResetEmail } from '../Services/emailService';
 
 export const registerUser = async (req: Request, res: Response) => {
   try {
@@ -94,6 +95,56 @@ export const confirmEmail = async (req: Request, res: Response) => {
     return res.status(500).json({ message: 'Server error during confirmation.' });
   }
 }
+
+
+export const requestPasswordReset = async (req: Request, res: Response) => {
+  const { email } = req.body;
+
+  try {
+    const user = await User.findOne({ where: { email } });
+    if (!user) {
+      console.log('⚠️ Password reset requested for non-existent email:', email);
+      return res.status(404).json({ message: 'No account found with that email.' });
+    }
+
+    const token = crypto.randomUUID();
+    user.resetToken = token;
+    await user.save();
+
+    const resetUrl = `http://localhost:3000/reset-password?token=${token}`;
+    await sendPasswordResetEmail(user.email, resetUrl);
+
+    return res.status(200).json({ message: 'Password reset email sent.' });
+  } catch (err) {
+    console.error('❌ Error sending password reset email:', err);
+    return res.status(500).json({ message: 'Server error. Please try again later.' });
+  }
+};
+
+
+export const resetPassword = async (req: Request, res: Response) => {
+  console.log('🔐 Reset password endpoint hit');
+  const { token, newPassword } = req.body;
+
+  try {
+    const user = await User.findOne({ where: { resetToken: token } });
+    if (!user) {
+      console.log('⚠️ Invalid reset token:', token);
+      return res.status(400).json({ message: 'Invalid or expired token.' });
+    }
+
+    const hashedPassword = await bcrypt.hash(newPassword, 10);
+    user.passwordHash = hashedPassword;
+    user.resetToken = null;
+    await user.save();
+
+    console.log('✅ Password updated for:', user.email);
+    return res.status(200).json({ message: 'Password updated successfully.' });
+  } catch (err) {
+    console.error('❌ Error resetting password:', err);
+    return res.status(500).json({ message: 'Server error during password reset.' });
+  }
+};
 
 
 

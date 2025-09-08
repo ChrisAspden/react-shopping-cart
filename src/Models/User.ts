@@ -15,6 +15,7 @@ class User extends Model<InferAttributes<User>, InferCreationAttributes<User>> {
   declare isAdmin: CreationOptional<boolean>;
   declare confirmed: boolean;
   declare confirmationToken: string | null;
+  declare resetToken: string | null;
   declare createdAt: CreationOptional<Date>;
   declare updatedAt: CreationOptional<Date>;
 
@@ -57,6 +58,11 @@ User.init(
       type: DataTypes.STRING,
       allowNull: true,
     },
+    resetToken: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
+
     createdAt: {
       type: DataTypes.DATE,
       allowNull: false,
