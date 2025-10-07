@@ -9,6 +9,7 @@ import PaintingsDropdown from "./DropDowns/PaintingsDropdown";
 import CrossStitchDropdown from "./DropDowns/CrossStitchDropdown";
 import KnittingDropdown from "./DropDowns/KnittingDropdown";
 import ModelsDropdown from "./DropDowns/ModelsDropdown";
+import { useUI } from "../Context/UIContext";
 
 // 💡 Category Config
 const categories = [
@@ -73,8 +74,7 @@ const categories = [
 const CategoryBar = () => {
   const [openCategory, setOpenCategory] = useState(null);
   const [showAttribution, setShowAttribution] = useState(false);
-  const [showLogin, setShowLogin] = useState(false);
-  const [showSignup, setShowSignup] = useState(false);
+  const { showLogin, openLogin, closeLogin, showSignup, setShowSignup } = useUI();
   const [showAccountPopup, setShowAccountPopup] = useState(false);
   const timeoutId = useRef(null);
   const { user, logout } = useAuth();
@@ -219,20 +219,19 @@ const CategoryBar = () => {
                   <button
                     className="hover:text-white"
                     onClick={() => {
-                      setShowLogin((prev) => !prev);
-                      setShowSignup(false);
+                      openLogin();
                       setShowAccountPopup(false);
                     }}
-                  >
+                    >
                     Login
                   </button>
 
                   {showLogin && (
                     <div className="absolute right-0 top-full mt-2 z-50">
                       <Login
-                        onClose={() => setShowLogin(false)}
+                        onClose={closeLogin}
                         onCreateAccount={() => {
-                          setShowLogin(false);
+                          closeLogin();
                           setShowSignup(true);
                         }}
                       />
