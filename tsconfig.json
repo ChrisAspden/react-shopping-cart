@@ -1,6 +1,7 @@
 {
   "compilerOptions": {
-        "jsx": "react-jsx",       // Or "react" for older setups
+        "jsx": "react-jsx", 
+        "typeRoots": ["./src/types", "./node_modules/@types"],    // Or "react" for older setups
     "moduleResolution": "Node",
     "allowJs": true,
     "checkJs": false,

@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { FiShoppingCart } from "react-icons/fi";
+import CartIndicator from './CartIndicator';
 import { UserCircleIcon } from "@heroicons/react/24/solid";
 import { useAuth } from "../Context/useAuth";
 import Login from "./LoginFormPopup";
@@ -113,6 +113,7 @@ const CategoryBar = () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [showAccountPopup]);
+  
 
   return (
     <div className="bg-primary bg-opacity-90">
@@ -246,10 +247,10 @@ const CategoryBar = () => {
                 </>
               )}
 
-              {/* 🛒 Cart for all users */}
-              <a href="/cart">
-                <FiShoppingCart className="h-10 w-10 text-white p-2 rounded-md ml-6" />
-              </a>
+              <button className="ml-6">
+                <CartIndicator />
+              </button>
+
             </div>
           </div>
         </div>

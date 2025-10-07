@@ -3,18 +3,20 @@
 import axios from 'axios';
 
 export type LoginResponse =
-  | { success: true; email: string }
+  | { success: true; id: number, email: string }
   | { success: false; message: string };
 
 
 export const sendLoginRequest = async (
   email: string,
   password: string
-  ): Promise<{status: number; data: LoginResponse}> => {
+  ): Promise<{ status: number; data: LoginResponse }> => {
   try {
-    const res = await axios.post('/api/users/login', { email, password }, {
-      withCredentials: true,
-    });
+    const res = await axios.post<LoginResponse>(
+      '/api/users/login',
+      { email, password },
+      { withCredentials: true }
+    );
     return { status: res.status, data: res.data };
   } catch (error: any) {
     const fallbackMessage = 'Login failed. Please try again.';
@@ -28,5 +30,6 @@ export const sendLoginRequest = async (
     };
   }
 };
+
 
 

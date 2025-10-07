@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { sendLoginRequest } from "../Services/authService";
 import { useAuth } from "../Context/useAuth";
 import PasswordResetRequestPopup from './PasswordResetRequestPopup';
+import { useCart } from "../Context/CartContext";
 
 interface LoginProps {
   onClose: () => void;
@@ -11,6 +12,7 @@ interface LoginProps {
 const Login: React.FC<LoginProps> = ({ onClose, onCreateAccount }) => {
   const modalRef = useRef<HTMLDivElement>(null);
   const { login } = useAuth();
+  const { syncToBackend } = useCart();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [errorMsg, setErrorMsg] = useState('');
@@ -21,17 +23,21 @@ const Login: React.FC<LoginProps> = ({ onClose, onCreateAccount }) => {
     try {
       const response = await sendLoginRequest(email, password);
       if (response.data.success) {
-        login(response.data.email);
+        login(response.data.id, response.data.email);
+        await syncToBackend(response.data.id);
         onClose();
       } else {
         setErrorMsg(response.data.message || 'Invalid email or password');
         setTimeout(() => setErrorMsg(''), 3000);
       }
+      await syncToBackend();
     } catch (error) {
       setErrorMsg('Something went wrong. Please try again.');
       setTimeout(() => setErrorMsg(''), 3000);
     }
   };
+
+  
 
   const handleCreateAccount = () => {
     onClose();

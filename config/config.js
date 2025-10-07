@@ -3,7 +3,7 @@ module.exports = {
     username: 'chris',
     password: 'secretpass',
     database: 'shopping_cart',
-    host: 'postgres', // ← this is the Docker container name
+    host: 'localhost',
     port: 5432,
     dialect: 'postgres',
   },
