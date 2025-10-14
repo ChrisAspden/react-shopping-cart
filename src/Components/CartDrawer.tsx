@@ -9,6 +9,7 @@ import {
 import { useCart } from '../Context/CartContext';
 import { useAuth } from '../Context/useAuth';
 import { useUI } from "../Context/UIContext";
+import { useNavigate } from "react-router-dom";
 
 interface CartDrawerProps {
   isOpen: boolean;
@@ -19,6 +20,7 @@ export default function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
   const { items, total, updateQuantity, removeItem } = useCart();
   const { user } = useAuth();
   const { openLogin } = useUI();
+  const navigate = useNavigate();
 
   return (
     <Transition show={isOpen} as={Fragment}>
@@ -131,6 +133,7 @@ export default function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
                         <button
                           onClick={() => {
                             onClose();
+                            navigate("/checkout");
                           }}
                           className="mt-4 w-full bg-indigo-600 text-white py-2 rounded hover:bg-indigo-700"
                         >

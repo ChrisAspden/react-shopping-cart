@@ -26,4 +26,31 @@ curl -X POST http://localhost:3001/api/users/login \
   Let me know if you want to add a /db-health route that runs a live query like SELECT 1 to confirm 
   everything’s wired up. It’s a great tool for debugging weird behavior like ghost users or stale data.
 
+  Comitting to git when working in a team:
+
+  Commit and push to your feature branch (feature/checkout-order-creation) until the feature is complete enough to integrate.
+
+  This keeps your work isolated and doesn’t disturb dev.
+
+  Sync with the latest dev before merging:
+
+  bash
+  git checkout dev
+  git pull origin dev   # get the latest changes from teammates
+  git checkout feature/checkout-order-creation
+  git merge dev         # bring dev into your feature branch
+  This step ensures your branch is up to date with everyone else’s work.
+
+  If there are conflicts, you resolve them here, in your feature branch.
+
+  Test locally on your feature branch after merging dev.
+
+  This way you know your feature works with the latest codebase and nothing breaks.
+
+  Push your updated feature branch back to GitHub.
+
+  Then open a Pull Request into dev.
+
+  Since you’ve already merged dev into your branch, the PR should be clean and conflict‑free
+
 

@@ -8,7 +8,8 @@ import React, {
 } from "react";
 import { useAuth } from "./useAuth";
 
-interface CartItem {
+
+export interface CartItem {
   id?: number; // DB primary key (only for logged-in users)
   productId: number;
   quantity: number;
